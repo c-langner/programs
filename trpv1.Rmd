@@ -1,0 +1,30 @@
+---
+  output: html_document
+---
+
+```{r}  
+# Charlotte Langner
+
+trpv1 <- read.csv("~/Downloads/trpv1.tsv", sep = "\t")
+
+summary(trpv1)
+
+#extract the low quality reads
+trpv1_quality <- subset(trpv1, X0.999 < 0.5)
+summary(trpv1_quality)
+
+#Write node1, node2, combined scores to file
+write.table(trpv1_quality, "~/Desktop/trpv1_quality.txt", sep = "\t",
+            quote = FALSE, row.names = FALSE)
+
+
+
+#another way to accomplish this, for fun
+library(tidyverse)
+
+trpv1 %>% 
+  filter(X0.999 > 0.5) %>% 
+  select(NTRK1, NGF, X0.999) %>% 
+  write.table("~/Desktop/trpv1_tidy.txt", sep = "\t",
+              quote = FALSE, row.names = FALSE)
+```
